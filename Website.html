@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SYNTAX TERROR | NRL 2026</title>
+  <style>
+    :root {
+      --bg-dark: #0a0a0c;
+      --card-bg: rgba(20, 20, 25, 0.9);
+      --cherry-red: #d90429;
+      --cherry-glow: #ef233c;
+      --text-main: #edf2f4;
+      --text-muted: #8d99ae;
+    }
+
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      cursor: none !important; /* Hide default system mouse cursor */
+    }
+
+    body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+
+    /* --- CHERRY RED SKULL CURSOR WITH BLACK OUTLINE --- */
+    .custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 32px;
+      height: 32px;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, filter 0.2s ease;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c' stroke='%23000000' stroke-width='1.2' stroke-linejoin='round'><path d='M12 2C7.58 2 4 5.58 4 10c0 2.5 1.15 4.73 2.95 6.22V19c0 .55.45 1 1 1h2v1c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-1h2c.55 0 1-.45 1-1v-2.78C18.85 14.73 20 12.5 20 10c0-4.42-3.58-8-8-8zm-3 9c-.83 0-1.5-.67-1.5-1.5S8.17 8 9 8s1.5.67 1.5 1.5S9.83 11 9 11zm6 0c-.83 0-1.5-.67-1.5-1.5S14.17 8 15 8s1.5.67 1.5 1.5S15.83 11 15 11zm-4.5 5h3v1.5h-3V16z'/></svg>");
+      background-size: contain;
+      background-repeat: no-repeat;
+      filter: drop-shadow(0 0 6px var(--cherry-glow)) drop-shadow(0 0 12px var(--cherry-red));
+    }
+
+    .custom-cursor.click {
+      transform: translate(-50%, -50%) scale(0.75) rotate(-15deg);
+    }
+
+    .custom-cursor.hover {
+      transform: translate(-50%, -50%) scale(1.3);
+      filter: drop-shadow(0 0 10px #ff2b4a) drop-shadow(0 0 20px var(--cherry-red));
+    }
+
+    /* --- INTRO ANIMATION SCREEN --- */
+    #intro-screen {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background-color: #050507;
+      z-index: 9998;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 1rem;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    #intro-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .intro-logo {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 3px solid var(--cherry-red);
+      box-shadow: 0 0 25px var(--cherry-red);
+      margin-bottom: 1.5rem;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(0.5);
+      animation: introPop 0.8s forwards ease-out 0.2s;
+    }
+
+    .intro-title {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: var(--text-main);
+      text-shadow: 0 0 20px rgba(217, 4, 41, 0.8);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: introSlideUp 0.8s forwards ease-out 0.6s;
+    }
+
+    .intro-team-no {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      color: var(--cherry-glow);
+      margin-top: 0.5rem;
+      opacity: 0;
+      animation: introFadeIn 0.8s forwards ease-out 0.9s;
+    }
+
+    .intro-league {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: introFadeIn 0.8s forwards ease-out 1.2s;
+    }
+
+    .intro-glitch-text {
+      font-family: monospace;
+      font-size: 1.3rem;
+      color: #00ffcc;
+      text-shadow: 0 0 10px rgba(0, 255, 204, 0.6);
+      opacity: 0;
+      animation: introFadeIn 0.8s forwards ease-out 1.5s;
+    }
+
+    @keyframes introPop {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes introSlideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes introFadeIn {
+      to { opacity: 1; }
+    }
+
+    /* Background Logo Overlay */
+    .bg-logo-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background-image: url('logo.jpeg.jpeg'), url('logo.jpeg'), url('logo.jpg');
+      background-position: center; background-repeat: no-repeat; background-size: contain;
+      opacity: 0.12; z-index: -1; pointer-events: none;
+    }
+
+    /* Navigation Bar */
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; background: rgba(10, 10, 12, 0.95); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid rgba(217, 4, 41, 0.3); }
+    .nav-logo { font-size: 1.5rem; font-weight: 800; color: var(--cherry-red); letter-spacing: 2px; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--text-main); text-decoration: none; font-weight: 600; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--cherry-glow); }
+
+    /* Hero Section */
+    .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 1rem; background: radial-gradient(circle at center, rgba(217, 4, 41, 0.2) 0%, transparent 75%); }
+    .hero-badge { border: 1px solid var(--cherry-red); color: var(--cherry-glow); padding: 0.4rem 1.2rem; border-radius: 20px; font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 1.5rem; text-transform: uppercase; background: rgba(10, 10, 12, 0.6); }
+    .hero h1 { font-size: 4rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 0.5rem; text-shadow: 0 0 20px rgba(217, 4, 41, 0.8); }
+    .hero p { font-size: 1.5rem; color: var(--cherry-glow); font-family: monospace; margin-bottom: 2.5rem; text-shadow: 0 0 10px rgba(239, 35, 60, 0.5); }
+
+    section { padding: 5rem 8%; }
+    .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: var(--text-main); position: relative; }
+    .section-title::after { content: ''; display: block; width: 60px; height: 4px; background: var(--cherry-red); margin: 0.5rem auto 0; border-radius: 2px; }
+
+    /* Team Layout */
+    .team-container { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; background: var(--card-bg); border-radius: 12px; padding: 2.5rem; border: 1px solid rgba(217, 4, 41, 0.25); backdrop-filter: blur(5px); }
+    .team-photo-wrapper { width: 100%; border-radius: 8px; overflow: hidden; border: 2px solid var(--cherry-red); box-shadow: 0 0 15px rgba(217, 4, 41, 0.3); }
+    .team-photo-wrapper img { width: 100%; height: auto; display: block; }
+
+    /* Members Grid */
+    .team-section { display: flex; flex-direction: column; gap: 2rem; max-width: 1200px; margin: 0 auto; }
+    .top-three-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .bottom-four-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+
+    .member-card { background: var(--card-bg); border-radius: 10px; padding: 1.2rem; text-align: center; transition: transform 0.3s, box-shadow 0.3s; backdrop-filter: blur(5px); }
+    .member-card:hover { transform: translateY(-6px); }
+
+    .top-three-grid .member-img-wrapper { width: 100%; height: 300px; border-radius: 8px; overflow: hidden; margin-bottom: 1rem; }
+    .top-three-grid .member-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+    .top-three-grid h3 { font-size: 1.35rem; margin-bottom: 0.2rem; }
+    .top-three-grid .role-title { font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+    .bottom-four-grid .member-card { padding: 1rem; }
+    .bottom-four-grid .member-img-wrapper { width: 100%; height: 210px; border-radius: 6px; overflow: hidden; margin-bottom: 0.8rem; }
+    .bottom-four-grid .member-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+    .bottom-four-grid h3 { font-size: 1.15rem; margin-bottom: 0.2rem; }
+    .bottom-four-grid .role-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .border-captain { border: 1.5px solid #ffd700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.25); }
+    .border-captain:hover { box-shadow: 0 0 18px rgba(255, 215, 0, 0.5); }
+    .border-captain .role-title { color: #ffd700; }
+
+    .border-mechanic { border: 1.5px solid #ff7b00; box-shadow: 0 0 10px rgba(255, 123, 0, 0.25); }
+    .border-mechanic:hover { box-shadow: 0 0 18px rgba(255, 123, 0, 0.5); }
+    .border-mechanic .role-title { color: #ff7b00; }
+
+    .border-electric { border: 1.5px solid #e0c200; box-shadow: 0 0 10px rgba(224, 194, 0, 0.25); }
+    .border-electric:hover { box-shadow: 0 0 18px rgba(224, 194, 0, 0.25); }
+    .border-electric .role-title { color: #facc15; }
+
+    .border-branding { border: 1.5px solid #ec4899; box-shadow: 0 0 10px rgba(236, 72, 153, 0.25); }
+    .border-branding:hover { box-shadow: 0 0 18px rgba(236, 72, 153, 0.5); }
+    .border-branding .role-title { color: #ec4899; }
+
+    .border-coding { border: 1.5px solid #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.25); }
+    .border-coding:hover { box-shadow: 0 0 18px rgba(16, 185, 129, 0.5); }
+    .border-coding .role-title { color: #10b981; font-family: monospace; }
+
+    /* Modal Styles */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-box { background: rgba(18, 18, 24, 0.95); border: 1px solid var(--cherry-red); box-shadow: 0 0 30px rgba(217, 4, 41, 0.3); width: 90%; max-width: 700px; border-radius: 12px; display: flex; padding: 2rem; gap: 2rem; position: relative; transform: scale(0.9); transition: transform 0.3s ease; }
+    .modal-overlay.active .modal-box { transform: scale(1); }
+    .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; color: var(--text-muted); transition: color 0.2s; }
+    .modal-close:hover { color: var(--cherry-glow); }
+    .modal-left { width: 40%; flex-shrink: 0; }
+    .modal-left img { width: 100%; height: 280px; object-fit: cover; border-radius: 8px; border: 2px solid var(--cherry-red); }
+    .modal-right { width: 60%; display: flex; flex-direction: column; }
+    .modal-title-name { font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.2rem; }
+    .modal-role { font-size: 1.1rem; font-weight: 700; color: var(--cherry-glow); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    .typing-text { font-family: monospace; font-size: 0.95rem; color: #00ffcc; white-space: pre-line; line-height: 1.8; }
+    .cursor { display: inline-block; width: 8px; background-color: #00ffcc; margin-left: 2px; animation: blink 0.7s infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* --- TRANSMISSIONS / COMMENT BOX SECTION --- */
+    #transmissions {
+      background: radial-gradient(circle at bottom, rgba(217, 4, 41, 0.15) 0%, rgba(10, 10, 12, 0.95) 70%);
+      padding: 5rem 8%;
+    }
+
+    .form-wrapper {
+      max-width: 650px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid rgba(217, 4, 41, 0.35);
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 0 25px rgba(217, 4, 41, 0.2);
+      backdrop-filter: blur(8px);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+    }
+
+    .form-group label span {
+      color: var(--cherry-glow);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: rgba(10, 10, 12, 0.8);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-control:focus {
+      border-color: var(--cherry-glow);
+      box-shadow: 0 0 12px rgba(239, 35, 60, 0.4);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 6px;
+      background: var(--cherry-red);
+      color: #fff;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      box-shadow: 0 0 15px rgba(217, 4, 41, 0.5);
+      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+    }
+
+    .submit-btn:hover {
+      background: var(--cherry-glow);
+      box-shadow: 0 0 25px rgba(239, 35, 60, 0.8);
+      transform: translateY(-2px);
+    }
+
+    #form-status {
+      margin-top: 1rem;
+      text-align: center;
+      font-family: monospace;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .btn-group { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+    .btn { padding: 0.8rem 2rem; border-radius: 6px; text-decoration: none; font-weight: 700; letter-spacing: 1px; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-primary { background: var(--cherry-red); color: #fff; box-shadow: 0 0 15px rgba(217, 4, 41, 0.4); }
+    .btn-primary:hover { background: var(--cherry-glow); box-shadow: 0 0 25px rgba(239, 35, 60, 0.8); }
+    .btn-outline { border: 2px solid var(--cherry-red); color: var(--text-main); background: rgba(10, 10, 12, 0.5); }
+    .btn-outline:hover { background: rgba(217, 4, 41, 0.2); border-color: var(--cherry-glow); }
+
+    footer { text-align: center; padding: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-muted); font-size: 0.9rem; background: rgba(10, 10, 12, 0.95); }
+
+    @media (max-width: 900px) {
+      .top-three-grid, .bottom-four-grid { grid-template-columns: repeat(2, 1fr); }
+      .team-container { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 650px) {
+      .top-three-grid, .bottom-four-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hero h1 { font-size: 2.5rem; }
+      .intro-title { font-size: 2.2rem; }
+      .modal-box { flex-direction: column; padding: 1.5rem; }
+      .modal-left { width: 100%; }
+      .modal-left img { height: 200px; }
+      .modal-right { width: 100%; }
+      * { cursor: auto !important; }
+      .custom-cursor { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="custom-cursor" id="cursor"></div>
+
+  <div id="intro-screen">
+    <img src="logo.jpeg.jpeg" onerror="this.src='logo.jpeg'; this.onerror=function(){this.src='logo.jpg';}" alt="SYNTAX TERROR Logo" class="intro-logo">
+    <div class="intro-title">SYNTAX TERROR</div>
+    <div class="intro-team-no">TEAM NO. 101</div>
+    <div class="intro-league">NATIONAL ROBOTICS LEAGUE 2026</div>
+    <div class="intro-glitch-text">ERROR 404! NO LIMITS FOUND!!!!</div>
+  </div>
+
+  <div class="bg-logo-overlay"></div>
+
+  <nav>
+    <div class="nav-logo">SYNTAX TERROR</div>
+    <ul class="nav-links">
+      <li><a href="#about">Overview</a></li>
+      <li><a href="#team">Members</a></li>
+      <li><a href="#socials">Socials</a></li>
+      <li><a href="#transmissions">Send Wishes</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-badge">National Robotics League 2026</div>
+    <h1>SYNTAX TERROR</h1>
+    <p>ERROR 404! NO LIMITS FOUND!!!!</p>
+    <div class="btn-group">
+      <a href="#team" class="btn btn-primary">Meet The Squad</a>
+      <a href="#about" class="btn btn-outline">Overview</a>
+    </div>
+  </header>
+
+  <section id="about">
+    <h2 class="section-title">Team Overview</h2>
+    <div class="team-container">
+      <div class="team-photo-wrapper">
+        <img src="team_photo.jpeg.jpeg" onerror="this.src='team_photo.jpeg'; this.onerror=function(){this.src='team_photo.jpg';}" alt="SYNTAX TERROR Team Photo">
+      </div>
+      <div>
+        <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--cherry-glow);">NO LIMITS FOUND</h3>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+          Welcome to Team SYNTAX TERROR for the National Robotics League 2026. Combining relentless engineering, smart programming, and strategic combat tactics, we push boundaries to dominate the robotics arena.
+        </p>
+        <a href="#socials" class="btn btn-outline">Connect With Us</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="team">
+    <h2 class="section-title">Squad Lineup</h2>
+    
+    <div class="team-section">
+      <div class="top-three-grid">
+        <div class="member-card border-mechanic" onclick="openProfile('Riya', 'Mechanic ⚙️', 'member1.jpeg.jpeg', '> Role: Lead Mechanical Design\n> Speciality: Chassis Assembly & CAD\n> Status: Ready for Combat ⚙️')">
+          <div class="member-img-wrapper">
+            <img src="member1.jpeg.jpeg" onerror="this.src='member1.jpeg'; this.onerror=function(){this.src='member1.jpg';}" alt="Riya">
+          </div>
+          <h3>Riya</h3>
+          <div class="role-title">Mechanic ⚙️</div>
+        </div>
+
+        <div class="member-card border-captain" onclick="openProfile('Atharv', 'CODER 👑', 'member2.jpeg.jpeg', '> System check... PASSED\n> Primary Role: Lead Programmer\n> Stack: C++, Python, Embedded Systems\n> Status: Writing clean code & ruling the arena 👑')">
+          <div class="member-img-wrapper">
+            <img src="member2.jpeg.jpeg" onerror="this.src='member2.jpeg'; this.onerror=function(){this.src='member2.jpg';}" alt="Atharv">
+          </div>
+          <h3>Atharv</h3>
+          <div class="role-title">CODER 👑</div>
+        </div>
+
+        <div class="member-card border-coding" onclick="openProfile('Sudiksha', 'Coding </>', 'member3.jpeg.jpeg', '> Role: Software Specialist\n> Focus: Autonomous Logic & Sensors\n> Status: Compiling success... 💻')">
+          <div class="member-img-wrapper">
+            <img src="member3.jpeg.jpeg" onerror="this.src='member3.jpeg'; this.onerror=function(){this.src='member3.jpg';}" alt="Sudiksha">
+          </div>
+          <h3>Sudiksha</h3>
+          <div class="role-title">Coding &lt;/&gt;</div>
+        </div>
+      </div>
+
+      <div class="bottom-four-grid">
+        <div class="member-card border-electric" onclick="openProfile('Yadukrishnan', 'Electric ⚡', 'member4.jpeg.jpeg', '> Role: Electrical Engineer\n> Focus: Power Distribution & Circuitry\n> Status: Fully Charged ⚡')">
+          <div class="member-img-wrapper">
+            <img src="member4.jpeg.jpeg" onerror="this.src='member4.jpeg'; this.onerror=function(){this.src='member4.jpg';}" alt="Yadukrishnan">
+          </div>
+          <h3>Yadukrishnan</h3>
+          <div class="role-title">Electric ⚡</div>
+        </div>
+
+        <div class="member-card border-branding" onclick="openProfile('Vedika', 'Branding 🎨', 'member5.jpeg.jpeg', '> Role: Creative Lead\n> Focus: Aesthetics, UI/UX & Identity\n> Status: Designing the Future 🎨')">
+          <div class="member-img-wrapper">
+            <img src="member5.jpeg.jpeg" onerror="this.src='member5.jpeg'; this.onerror=function(){this.src='member5.jpg';}" alt="Vedika">
+          </div>
+          <h3>Vedika</h3>
+          <div class="role-title">Branding 🎨</div>
+        </div>
+
+        <div class="member-card border-mechanic" onclick="openProfile('Nidhi', 'Mechanic ⚙️', 'member6.jpeg.jpeg', '> Role: Mechanical Hardware Specialist\n> Focus: Drivetrain & Stress Testing\n> Status: Built to Last 🛠️')">
+          <div class="member-img-wrapper">
+            <img src="member6.jpeg.jpeg" onerror="this.src='member6.jpeg'; this.onerror=function(){this.src='member6.jpg';}" alt="Nidhi">
+          </div>
+          <h3>Nidhi</h3>
+          <div class="role-title">Mechanic ⚙️</div>
+        </div>
+
+        <div class="member-card border-electric" onclick="openProfile('Harshvardhan', 'Electric ⚡', 'member7.jpeg.jpeg', '> Role: Systems & Wiring Specialist\n> Focus: Motor Controllers & Telemetry\n> Status: High Voltage ⚡')">
+          <div class="member-img-wrapper">
+            <img src="member7.jpeg.jpeg" onerror="this.src='member7.jpeg'; this.onerror=function(){this.src='member7.jpg';}" alt="Harshvardhan">
+          </div>
+          <h3>Harshvardhan</h3>
+          <div class="role-title">Electric ⚡</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal-overlay" id="profileModal" onclick="closeProfile(event)">
+    <div class="modal-box">
+      <span class="modal-close" onclick="closeProfileForce()">&times;</span>
+      <div class="modal-left">
+        <img id="modalImg" src="" alt="Profile Image">
+      </div>
+      <div class="modal-right">
+        <div class="modal-title-name" id="modalName">Name</div>
+        <div class="modal-role" id="modalRole">Role</div>
+        <div class="typing-text"><span id="typedContent"></span><span class="cursor">&nbsp;</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="socials" style="background: rgba(20, 20, 25, 0.9); text-align: center;">
+    <h2 class="section-title">Join The Network</h2>
+    <div class="btn-group">
+      <a href="https://www.instagram.com/syntaxterror_nrl101/" target="_blank" class="btn btn-primary">Instagram</a>
+      <a href="https://www.youtube.com/@syntaxterror_nrl" target="_blank" class="btn btn-primary" style="background: #ff0000;">YouTube</a>
+    </div>
+  </section>
+
+  <section id="transmissions">
+    <h2 class="section-title">Transmit Wishes</h2>
+    <div class="form-wrapper">
+      <form id="transmission-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="28c39351-6bda-4047-81ec-b662639be10e">
+        <div class="form-group">
+          <label for="operator-name">Operator ID / Name <span>*</span></label>
+          <input type="text" id="operator-name" name="Operator ID" class="form-control" placeholder="e.g. Commander Alex / John Doe" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="operator-email">Communication Email <span>*</span></label>
+          <input type="email" id="operator-email" name="Email" class="form-control" placeholder="name@domain.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="transmission-message">Transmission / Comment / Best Wishes <span>*</span></label>
+          <textarea id="transmission-message" name="Transmission Log" class="form-control" placeholder="Type your cheer, strategy advice, or best wishes for the arena..." required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-btn">Transmit to Squad</button>
+        <div id="form-status"></div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 SYNTAX TERROR — National Robotics League. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // --- SKULL CURSOR TRACKING ---
+    const cursor = document.getElementById('cursor');
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+
+    document.addEventListener('mousedown', () => {
+      cursor.classList.add('click');
+    });
+
+    document.addEventListener('mouseup', () => {
+      cursor.classList.remove('click');
+    });
+
+    const interactiveElements = document.querySelectorAll('a, button, .member-card, .modal-close, input, textarea');
+    interactiveElements.forEach((el) => {
+      el.addEventListener('mouseenter', () => {
+        cursor.classList.add('hover');
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.classList.remove('hover');
+      });
+    });
+
+    // Intro Screen Animation Controller
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const intro = document.getElementById('intro-screen');
+        intro.classList.add('fade-out');
+      }, 3400);
+    });
+
+    // Profile Modal Typing Controller
+    let typingInterval;
+
+    function openProfile(name, role, imgSrc, textToType) {
+      document.getElementById('modalName').textContent = name;
+      document.getElementById('modalRole').textContent = role;
+      
+      const imgElem = document.getElementById('modalImg');
+      imgElem.src = imgSrc;
+      imgElem.onerror = function() {
+        this.src = imgSrc.replace('.jpeg.jpeg', '.jpeg');
+        this.onerror = function() {
+          this.src = imgSrc.replace('.jpeg.jpeg', '.jpg');
+        };
+      };
+
+      const modal = document.getElementById('profileModal');
+      modal.classList.add('active');
+
+      const typedContent = document.getElementById('typedContent');
+      typedContent.textContent = '';
+      clearInterval(typingInterval);
+
+      let index = 0;
+      typingInterval = setInterval(() => {
+        if (index < textToType.length) {
+          typedContent.textContent += textToType.charAt(index);
+          index++;
+        } else {
+          clearInterval(typingInterval);
+        }
+      }, 35);
+    }
+
+    function closeProfile(event) {
+      if (event.target.classList.contains('modal-overlay')) {
+        closeProfileForce();
+      }
+    }
+
+    function closeProfileForce() {
+      const modal = document.getElementById('profileModal');
+      modal.classList.remove('active');
+      clearInterval(typingInterval);
+    }
+
+    // Transmission Form AJAX Submission Handler
+    const form = document.getElementById('transmission-form');
+    const status = document.getElementById('form-status');
+    const submitBtn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', async function(event) {
+      event.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'TRANSMITTING...';
+      status.style.color = '#00ffcc';
+      status.textContent = '> Encrypting and routing payload...';
+
+      const data = new FormData(form);
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          status.style.color = '#10b981';
+          status.textContent = '✓ TRANSMISSION DELIVERED SUCCESSFULLY TO SYNTAX TERROR!';
+          form.reset();
+        } else {
+          status.style.color = '#ef233c';
+          status.textContent = '✗ TRANSMISSION FAILED. PLEASE VERIFY RECIPIENT ENDPOINT.';
+        }
+      } catch (error) {
+        status.style.color = '#ef233c';
+        status.textContent = '✗ ERROR 500: NETWORK CARRIER SIGNAL LOST.';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Transmit to Squad';
+      }
+    });
+  </script>
+
+</body>
+</html>
