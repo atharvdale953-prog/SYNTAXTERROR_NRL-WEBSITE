@@ -711,17 +711,6 @@
       to { opacity: 1; transform: scale(1); }
     }
 
-    .splash-logo-img {
-      max-width: 150px;
-      max-height: 150px;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      margin-bottom: 1.8rem;
-      filter: drop-shadow(0 0 22px rgba(239, 35, 60, 0.55));
-      animation: badgePulse 2.4s ease-in-out infinite;
-    }
-
     @keyframes badgePulse {
       0%, 100% { filter: drop-shadow(0 0 18px rgba(239, 35, 60, 0.5)); }
       50% { filter: drop-shadow(0 0 32px rgba(239, 35, 60, 0.85)); }
@@ -808,7 +797,6 @@
   <div id="intro-splash">
     <canvas id="intro-3d-canvas"></canvas>
     <div class="splash-content">
-      <img src="logo.jpeg" alt="Syntax Terror Logo" class="splash-logo-img">
       <h1 class="splash-title">SYNTAX TERROR</h1>
       <div class="splash-team-no">TEAM NO. 101</div>
       <div class="splash-league">NATIONAL ROBOTICS LEAGUE 2026</div>
@@ -1125,8 +1113,8 @@
         <h2 class="section-title">Join The Network</h2>
         <div class="glass-card network-container" style="cursor: default;">
           <div class="social-btn-group">
-            <button class="social-btn" onclick="triggerSocialRedirect('https://www.instagram.com/syntaxterror_nrl101/', 'INSTAGRAM')">Instagram</button>
-            <button class="social-btn" onclick="triggerSocialRedirect('https://www.youtube.com/@syntaxterror_nrl', 'YOUTUBE')">YouTube</button>
+            <button class="social-btn" onclick="triggerSocialRedirect('https://instagram.com', 'INSTAGRAM')">Instagram</button>
+            <button class="social-btn" onclick="triggerSocialRedirect('https://youtube.com', 'YOUTUBE')">YouTube</button>
           </div>
         </div>
       </section>
@@ -1137,7 +1125,7 @@
           <div class="glass-card" style="cursor: default;">
             <h3 style="color: var(--cherry-glow); font-size: 1.4rem; margin-bottom: 1rem; text-align: center;">TRANSMIT WISHES</h3>
             <form action="https://api.web3forms.com/submit" method="POST">
-              <input type="hidden" name="access_key" value="28c39351-6bda-4047-81ec-b662639be10e">
+              <input type="hidden" name="access_key" value="28c70351-4bda-4667-81ec-565257f8e35a">
               <input type="hidden" name="subject" value="New Wish for SYNTAX TERROR">
               
               <div class="form-group">
@@ -1312,7 +1300,7 @@
     const coreMat = new THREE.MeshBasicMaterial({ color: 0xd90429, wireframe: true });
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
     // Initial starting scale (small on Hero section)
-    coreMesh.scale.set(0.6, 0.6, 0.6);
+    coreMesh.scale.set(1.1, 1.1, 1.1);
     scene.add(coreMesh);
 
     // Floating Particles
