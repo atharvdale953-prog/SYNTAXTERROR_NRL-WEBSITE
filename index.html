@@ -228,7 +228,8 @@
     }
     @media (max-width: 600px) {
       .modal-terminal-box { grid-template-columns: 1fr; }
-      .terminal-img-frame { height: 200px; }
+      .terminal-img-frame { height: auto; aspect-ratio: 1 / 1; }
+      .terminal-img-frame img { object-position: center 20%; }
       .nav-right { gap: 0.5rem; }
     }
 
@@ -282,7 +283,7 @@
 
       /* --- OVERVIEW --- */
       .overview-card { padding: 1.2rem; gap: 1.2rem; }
-      .overview-img-container { height: 200px; }
+      .overview-img-container { height: auto; aspect-ratio: 4 / 3; }
       .overview-heading { font-size: 1.45rem; }
       .overview-text { font-size: 0.95rem; margin-bottom: 1.2rem; }
       .overview-info .action-btn { width: 100%; text-align: center; }
@@ -292,14 +293,14 @@
       .row-top { gap: 1.1rem; }
       .row-bottom { grid-template-columns: 1fr; gap: 1.1rem; }
       .card-featured, .card-side { max-width: 420px; }
-      .card-featured img, .card-side img, .card-compact img { height: 230px; }
+      .card-featured img, .card-side img, .card-compact img { height: auto; aspect-ratio: 3 / 4; object-position: center 15%; }
       .card-compact { min-height: 0; padding: 1.15rem; }
       .team-desc { min-height: 0; text-align: center; padding: 0; }
 
       /* --- DOMAINS / UPDATES --- */
       .domain-grid, .updates-grid { grid-template-columns: 1fr; gap: 1.1rem; }
       .domain-desc { min-height: 0; }
-      .update-card img { height: 200px; }
+      .update-card img { height: auto; aspect-ratio: 16 / 10; }
 
       /* --- NETWORK --- */
       .network-container { padding: 1.8rem 1.1rem; }
@@ -352,7 +353,6 @@
       .search-wrap { max-width: 150px; }
       .nav-logo { font-size: 0.95rem; }
       .footer-grid { grid-template-columns: 1fr; gap: 1.2rem; }
-      .card-featured img, .card-side img, .card-compact img { height: 210px; }
       .splash-content { padding: 1rem; }
       .splash-league { font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1.4rem; }
       .splash-error-line { margin-bottom: 1.8rem; }
