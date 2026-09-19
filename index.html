@@ -168,7 +168,7 @@
     .terminal-header-role { font-size: 1rem; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 1.3rem; display: flex; align-items: center; gap: 6px; }
     .terminal-text-container { font-size: 0.95rem; line-height: 1.7; min-height: 120px; }
     .typing-line { color: #00ffcc; margin-bottom: 0.4rem; word-break: break-word; }
-    .forms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+    .forms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; max-width: 480px; margin: 0 auto; }
     .form-group { margin-bottom: 1rem; }
     .form-group label { display: block; margin-bottom: 0.4rem; font-size: 0.85rem; font-weight: 700; color: var(--text-main); }
     .form-control { width: 100%; padding: 0.75rem; background: rgba(5, 5, 8, 0.85); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main); outline: none; transition: border-color 0.3s; }
@@ -542,7 +542,7 @@
         <div class="glass-card network-container" style="cursor: default;">
           <div class="social-btn-group">
             <button class="social-btn" onclick="triggerSocialRedirect('https://www.instagram.com/syntaxterror_nrl101/', 'INSTAGRAM')" aria-label="Open our Instagram in a new tab">Instagram</button>
-            <button class="social-btn" onclick="triggerSocialRedirect('https://www.youtube.com/@SyntaxTerror_NRL2026', 'YOUTUBE')" aria-label="Open our YouTube in a new tab">YouTube</button>
+            <button class="social-btn" onclick="triggerSocialRedirect('https://www.youtube.com/@syntaxterror_nrl', 'YOUTUBE')" aria-label="Open our YouTube in a new tab">YouTube</button>
           </div>
         </div>
       </section>
@@ -570,7 +570,7 @@
           <div class="faq-item"><button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">What is SYNTAX TERROR? <span class="faq-icon">+</span></button><div class="faq-answer"><p>SYNTAX TERROR (Team 101) is a student robotics team competing in the National Robotics League 2026, focused on mechanical design, coding, electronics, and media/branding.</p></div></div>
           <div class="faq-item"><button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">How can my school support the team? <span class="faq-icon">+</span></button><div class="faq-answer"><p>Schools that wish to encourage or promote robotics can reach out via our Contact for Outreach section using the listed email or phone number.</p></div></div>
           <div class="faq-item"><button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">How quickly do you respond to messages? <span class="faq-icon">+</span></button><div class="faq-answer"><p>Response time promise: we aim to reply to all messages within 48 hours.</p></div></div>
-          <div class="faq-item"><button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">Can I send the team a message of support? <span class="faq-icon">+</span></button><div class="faq-answer"><p>Absolutely! Head to the Engage section to transmit wishes or support your favorite committee.</p></div></div>
+          <div class="faq-item"><button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">Can I send the team a message of support? <span class="faq-icon">+</span></button><div class="faq-answer"><p>Absolutely! Head to the Engage section to transmit your wishes and cheer for the team.</p></div></div>
         </div>
       </section>
       <section class="section-block" id="engage">
@@ -586,20 +586,6 @@
               <div class="form-group" style="display:flex; gap:8px; align-items:flex-start;"><input type="checkbox" id="wishConsent" required style="margin-top:4px;"><label for="wishConsent" style="font-weight:500; font-size:0.8rem;">I consent to my details being used to respond to this message. See our <a href="#" onclick="openLegal('privacy');return false;" style="color:var(--cherry-glow)">Privacy Policy</a>.</label></div>
               <button type="submit" class="submit-btn">Transmit Cheer</button>
               <div class="form-msg" id="wishMsg" aria-live="polite"></div>
-            </form>
-          </div>
-          <div class="glass-card" style="cursor: default;">
-            <h3 style="color: var(--cherry-glow); font-size: 1.4rem; margin-bottom: 1rem; text-align: center;">SUPPORT YOUR FAVORITE COMMITTEE</h3>
-            <form class="ajax-form" data-msg="supportMsg">
-              <input type="hidden" name="access_key" value="6c9f19e9-875d-49f3-a57a-093e97357b76">
-              <input type="hidden" name="subject" value="New Favorite Committee Support">
-              <div class="form-group"><label for="supName">Your Name *</label><input id="supName" type="text" name="supporter_name" class="form-control" placeholder="Supporter Name" required></div>
-              <div class="form-group"><label for="supEmail">Your Email *</label><input id="supEmail" type="email" name="supporter_email" class="form-control" placeholder="name@example.com" required></div>
-              <div class="form-group"><label for="supCommittee">Select Committee / Sub-Department *</label><select id="supCommittee" name="supported_committee" class="form-control" required><option value="" disabled selected>Choose your favorite committee...</option><option value="Mechanical Committee (Hardware & Chassis)">Mechanical Committee (Hardware &amp; Chassis)</option><option value="Coding & Autonomous Committee (Software & Algorithms)">Coding &amp; Autonomous Committee (Software &amp; Algorithms)</option><option value="Electronics & Power Committee (Circuitry & ESCs)">Electronics &amp; Power Committee (Circuitry &amp; ESCs)</option><option value="Media & Branding Committee (Design, Video & PR)">Media &amp; Branding Committee (Design, Video &amp; PR)</option></select></div>
-              <div class="form-group"><label for="supMessage">Shoutout / Support Message *</label><textarea id="supMessage" name="support_message" class="form-control" rows="2" placeholder="Send a shoutout to your favorite department..." required></textarea></div>
-              <div class="form-group" style="display:flex; gap:8px; align-items:flex-start;"><input type="checkbox" id="supConsent" required style="margin-top:4px;"><label for="supConsent" style="font-weight:500; font-size:0.8rem;">I consent to my details being used to respond to this message. See our <a href="#" onclick="openLegal('privacy');return false;" style="color:var(--cherry-glow)">Privacy Policy</a>.</label></div>
-              <button type="submit" class="submit-btn">Send Support</button>
-              <div class="form-msg" id="supportMsg" aria-live="polite"></div>
             </form>
           </div>
         </div>
