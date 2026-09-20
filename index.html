@@ -387,7 +387,6 @@
        These rules just make sure the now-empty canvases don't sit around and that
        the page reads as an intentional flat design instead of a blank hole. */
     body.no-3d #webgl-canvas,
-    body.no-3d #intro-3d-canvas,
     body.no-3d #redirect-3d-canvas { display: none; }
     body.no-3d #intro-splash { background-image: linear-gradient(rgba(5, 5, 8, 0.9), rgba(5, 5, 8, 0.96)), radial-gradient(circle at center, rgba(217, 4, 41, 0.16) 0%, rgba(5, 5, 8, 0.98) 70%), url('logo.jpeg'); background-size: cover, cover, cover; background-position: center, center, center; }
     body.no-3d .redirect-content-box { background: rgba(8, 10, 16, 0.96); }
@@ -406,7 +405,6 @@
     .loader-ring.ring-expand { animation: ringExpand 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
     @keyframes ringExpand { 0% { transform: scale(1); opacity: 1; } 65% { opacity: 1; } 100% { transform: scale(90); opacity: 0; } }
     @media (prefers-reduced-motion: reduce) { #introLoader { display: none !important; } }
-    #intro-3d-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
     .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; opacity: 0; transform: scale(0.85); animation: splashPop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s forwards; }
     @keyframes splashPop { to { opacity: 1; transform: scale(1); } }
     .splash-title { font-size: clamp(2.6rem, 8vw, 4.5rem); font-weight: 900; letter-spacing: -1px; color: #fff; text-shadow: 0 0 35px rgba(217, 4, 41, 0.9); margin-bottom: 1rem; opacity: 0; transform: translateY(16px); animation: splashRise 0.55s ease 1.95s forwards; }
@@ -470,7 +468,6 @@
     <div class="loader-ring"></div>
   </div>
   <div id="intro-splash">
-    <canvas id="intro-3d-canvas" aria-hidden="true"></canvas>
     <div class="splash-content">
       <h1 class="splash-title">SYNTAX TERROR</h1>
       <div class="splash-team-no">TEAM NO. 101</div>
@@ -844,15 +841,6 @@
     window.addEventListener('load', function() {
       if (typeof THREE === 'undefined') return;
       if (window.matchMedia('(max-width: 768px)').matches) { document.body.classList.add('no-3d'); return; }
-      const introCanvas = document.getElementById('intro-3d-canvas');
-      const introScene = new THREE.Scene();
-      const introCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-      const introRenderer = new THREE.WebGLRenderer({ canvas: introCanvas, antialias: true, alpha: true });
-      introRenderer.setSize(window.innerWidth, window.innerHeight); introRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      const introMesh = new THREE.Mesh(new THREE.IcosahedronGeometry(1.9, 2), new THREE.MeshBasicMaterial({ color: 0xef233c, wireframe: true, transparent: true, opacity: 0.55 }));
-      introScene.add(introMesh); introCamera.position.z = 6;
-      function animateIntro() { if (document.getElementById('intro-splash').style.display === 'none') return; requestAnimationFrame(animateIntro); introMesh.rotation.y += 0.004; introMesh.rotation.x += 0.002; introRenderer.render(introScene, introCamera); }
-      animateIntro();
       const canvas = document.getElementById('webgl-canvas');
       const scene = new THREE.Scene(); scene.fog = new THREE.FogExp2(0x050508, 0.03);
       const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -885,7 +873,6 @@
       animateOverlay();
       window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight);
-        introCamera.aspect = window.innerWidth / window.innerHeight; introCamera.updateProjectionMatrix(); introRenderer.setSize(window.innerWidth, window.innerHeight);
         redirectCamera.aspect = window.innerWidth / window.innerHeight; redirectCamera.updateProjectionMatrix(); redirectRenderer.setSize(window.innerWidth, window.innerHeight);
       });
     });
