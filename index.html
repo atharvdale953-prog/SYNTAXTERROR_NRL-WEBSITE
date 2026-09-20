@@ -169,6 +169,10 @@
     .schedule-sublist { list-style: none; margin-top: 0.4rem; padding: 0; }
     .schedule-sublist li { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; padding-left: 1rem; position: relative; }
     .schedule-sublist li::before { content: '★'; position: absolute; left: 0; color: var(--color-lead); font-size: 0.7rem; top: 0.2rem; }
+    .schedule-item.pop-init { opacity: 0; transform: scale(0.75) translateY(18px); }
+    .schedule-item.pop-in { animation: schedulePop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    @keyframes schedulePop { 0% { opacity: 0; transform: scale(0.75) translateY(18px); } 60% { opacity: 1; transform: scale(1.04) translateY(-2px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { .schedule-item.pop-init { opacity: 1; transform: none; } .schedule-item.pop-in { animation: none; } }
     .typing-cursor { display: inline-block; width: 6px; height: 14px; background-color: var(--cherry-glow); margin-left: 2px; animation: blink 0.8s infinite; vertical-align: middle; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 3, 6, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 1.5rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
@@ -389,15 +393,31 @@
     body.no-3d .redirect-content-box { background: rgba(8, 10, 16, 0.96); }
     #intro-splash { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 5000; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background-color: #050508; background-image: radial-gradient(circle at center, rgba(217, 4, 41, 0.12) 0%, rgba(5, 5, 8, 0.97) 70%); overflow: hidden; transition: opacity 0.8s ease, visibility 0.8s ease; }
     #intro-splash.splash-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    /* ---- Preloader: dots -> expanding ring wipe, before the splash content reveals ---- */
+    #introLoader { position: fixed; inset: 0; z-index: 5200; display: flex; align-items: center; justify-content: center; background: #050508; transition: opacity 0.5s ease; }
+    #introLoader.loader-out { opacity: 0; pointer-events: none; }
+    .loader-dots { display: flex; gap: 11px; position: relative; z-index: 2; transition: opacity 0.3s ease, transform 0.3s ease; }
+    .loader-dots span { width: 12px; height: 12px; border-radius: 50%; background: var(--cherry-glow); box-shadow: 0 0 12px rgba(239, 35, 60, 0.85); animation: loaderBounce 0.7s ease-in-out infinite; }
+    .loader-dots span:nth-child(2) { animation-delay: 0.12s; }
+    .loader-dots span:nth-child(3) { animation-delay: 0.24s; }
+    @keyframes loaderBounce { 0%, 80%, 100% { transform: translateY(0); opacity: 0.5; } 40% { transform: translateY(-12px); opacity: 1; } }
+    .loader-dots.dots-out { opacity: 0; transform: scale(0.4); animation: none; }
+    .loader-ring { position: absolute; top: 50%; left: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: radial-gradient(circle, rgba(239, 35, 60, 0.95) 0%, rgba(217, 4, 41, 0.85) 55%, rgba(5, 5, 8, 0) 78%); opacity: 0; z-index: 1; }
+    .loader-ring.ring-expand { animation: ringExpand 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+    @keyframes ringExpand { 0% { transform: scale(1); opacity: 1; } 65% { opacity: 1; } 100% { transform: scale(90); opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { #introLoader { display: none !important; } }
     #intro-3d-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
     .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; opacity: 0; transform: scale(0.85); animation: splashPop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s forwards; }
     @keyframes splashPop { to { opacity: 1; transform: scale(1); } }
-    .splash-title { font-size: clamp(2.6rem, 8vw, 4.5rem); font-weight: 900; letter-spacing: -1px; color: #fff; text-shadow: 0 0 35px rgba(217, 4, 41, 0.9); margin-bottom: 1rem; }
-    .splash-team-no { font-size: 1.2rem; font-weight: 800; letter-spacing: 3px; color: var(--cherry-glow); text-shadow: 0 0 10px rgba(239, 35, 60, 0.6); margin-bottom: 0.5rem; }
-    .splash-league { font-size: 1rem; font-weight: 700; letter-spacing: 2px; color: #cbd5e1; margin-bottom: 2rem; }
+    .splash-logo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; margin-bottom: 1.1rem; box-shadow: 0 0 0 3px rgba(239, 35, 60, 0.55), 0 0 32px rgba(217, 4, 41, 0.7); opacity: 0; transform: scale(0.3) rotate(-20deg); animation: logoPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.7s forwards; }
+    @keyframes logoPop { to { opacity: 1; transform: scale(1) rotate(0deg); } }
+    .splash-title { font-size: clamp(2.6rem, 8vw, 4.5rem); font-weight: 900; letter-spacing: -1px; color: #fff; text-shadow: 0 0 35px rgba(217, 4, 41, 0.9); margin-bottom: 1rem; opacity: 0; transform: translateY(16px); animation: splashRise 0.55s ease 1.95s forwards; }
+    .splash-team-no { font-size: 1.2rem; font-weight: 800; letter-spacing: 3px; color: var(--cherry-glow); text-shadow: 0 0 10px rgba(239, 35, 60, 0.6); margin-bottom: 0.5rem; opacity: 0; transform: translateY(12px); animation: splashRise 0.5s ease 2.1s forwards; }
+    .splash-league { font-size: 1rem; font-weight: 700; letter-spacing: 2px; color: #cbd5e1; margin-bottom: 2rem; opacity: 0; transform: translateY(10px); animation: splashRise 0.5s ease 2.25s forwards; }
+    @keyframes splashRise { to { opacity: 1; transform: translateY(0); } }
     .splash-error-line { font-size: clamp(0.95rem, 2.5vw, 1.3rem); font-weight: 800; letter-spacing: 2px; color: #00ffcc; text-shadow: 0 0 10px rgba(0, 255, 204, 0.6); margin-bottom: 2.5rem; min-height: 1.5rem; }
     .splash-error-line .typing-cursor { background-color: #00ffcc; }
-    .splash-enter-btn { padding: 0.85rem 2.2rem; border: 1.5px solid var(--cherry-glow); border-radius: 6px; background: rgba(217, 4, 41, 0.15); color: #fff; font-weight: 800; letter-spacing: 2px; cursor: pointer; font-size: 0.95rem; box-shadow: 0 0 15px rgba(239, 35, 60, 0.4); transition: all 0.3s ease; opacity: 0; animation: splashFadeIn 0.6s ease 1.6s forwards; }
+    .splash-enter-btn { padding: 0.85rem 2.2rem; border: 1.5px solid var(--cherry-glow); border-radius: 6px; background: rgba(217, 4, 41, 0.15); color: #fff; font-weight: 800; letter-spacing: 2px; cursor: pointer; font-size: 0.95rem; box-shadow: 0 0 15px rgba(239, 35, 60, 0.4); transition: all 0.3s ease; opacity: 0; animation: splashFadeIn 0.6s ease 3.6s forwards; }
     @keyframes splashFadeIn { to { opacity: 1; } }
     .splash-enter-btn:hover, .splash-enter-btn:focus { background: var(--cherry-glow); box-shadow: 0 0 28px rgba(239, 35, 60, 0.8); transform: translateY(-2px); }
     #main-website { opacity: 0; transition: opacity 0.9s ease; }
@@ -436,7 +456,7 @@
     .legal-box p { color: var(--text-muted); line-height: 1.7; margin-bottom: 0.8rem; font-size: 0.92rem; }
     .legal-close { float: right; background: none; border: none; color: var(--text-dim); font-size: 1.4rem; cursor: pointer; }
     @media print {
-      nav, #webgl-canvas, #intro-splash, #backToTop, #stickyMobileCta, #cookieBanner, .social-btn-group, #scroll-progress, .hamburger, .search-wrap, .nav-icon-btn, #redirect-3d-canvas, .modal-overlay, .social-redirect-overlay { display: none !important; }
+      nav, #webgl-canvas, #introLoader, #intro-splash, #backToTop, #stickyMobileCta, #cookieBanner, .social-btn-group, #scroll-progress, .hamburger, .search-wrap, .nav-icon-btn, #redirect-3d-canvas, .modal-overlay, .social-redirect-overlay { display: none !important; }
       body { background: #fff !important; color: #000 !important; }
       #main-website { opacity: 1 !important; }
       .glass-card, .faq-item { border: 1px solid #ccc !important; box-shadow: none !important; page-break-inside: avoid; }
@@ -447,9 +467,14 @@
 <body>
   <a href="#main-content" class="skip-link">Skip to content</a>
   <div id="scroll-progress" role="presentation"></div>
+  <div id="introLoader" aria-hidden="true">
+    <div class="loader-dots"><span></span><span></span><span></span></div>
+    <div class="loader-ring"></div>
+  </div>
   <div id="intro-splash">
     <canvas id="intro-3d-canvas" aria-hidden="true"></canvas>
     <div class="splash-content">
+      <img class="splash-logo" src="logo.jpeg" alt="SYNTAX TERROR team logo" onerror="this.style.display='none'">
       <h1 class="splash-title">SYNTAX TERROR</h1>
       <div class="splash-team-no">TEAM NO. 101</div>
       <div class="splash-league">NATIONAL ROBOTICS LEAGUE 2026</div>
@@ -561,27 +586,27 @@
         <h2 class="section-title">COMPETITION SCHEDULE</h2>
         <div class="glass-card schedule-card">
           <div class="schedule-timeline">
-            <div class="schedule-item">
+            <div class="schedule-item pop-init">
               <div class="schedule-dot" style="background: var(--color-branding);"><span>🚩</span></div>
               <div class="schedule-title-row"><span class="schedule-title">Team Registrations Open</span><span class="schedule-date">July 2026</span></div>
               <p class="schedule-desc">Schools finalise and submit student team details.</p>
             </div>
-            <div class="schedule-item">
+            <div class="schedule-item pop-init">
               <div class="schedule-dot" style="background: var(--cherry-glow);"><span>🎮</span></div>
               <div class="schedule-title-row"><span class="schedule-title">Game Reveal</span><span class="schedule-date">Aug 2026</span></div>
               <p class="schedule-desc">Game manual with rules goes live and kits are shipped to schools.</p>
             </div>
-            <div class="schedule-item">
+            <div class="schedule-item pop-init">
               <div class="schedule-dot" style="background: var(--color-mechanic);"><span>🛠️</span></div>
               <div class="schedule-title-row"><span class="schedule-title">Build Season</span><span class="schedule-date">Sept – Nov 2026</span></div>
               <p class="schedule-desc">Teams design, prototype, and program. Online webinars plus Bootcamps for enrolled students.</p>
             </div>
-            <div class="schedule-item">
+            <div class="schedule-item pop-init">
               <div class="schedule-dot" style="background: var(--color-electric);"><span>💡</span></div>
               <div class="schedule-title-row"><span class="schedule-title">Innovation Showcase Submission Due</span><span class="schedule-date">Oct 2026</span></div>
               <p class="schedule-desc">Final documentation and showcase materials are submitted for judging.</p>
             </div>
-            <div class="schedule-item">
+            <div class="schedule-item pop-init">
               <div class="schedule-dot" style="background: var(--color-branding);"><span>🏆</span></div>
               <div class="schedule-title-row"><span class="schedule-title">Award Applications Due</span><span class="schedule-date">Oct 2026</span></div>
               <ul class="schedule-sublist">
@@ -589,12 +614,12 @@
                 <li>The InnovoStars Award (Team)</li>
               </ul>
             </div>
-            <div class="schedule-item">
+            <div class="schedule-item pop-init">
               <div class="schedule-dot" style="background: var(--cherry-glow);"><span>📍</span></div>
               <div class="schedule-title-row"><span class="schedule-title">Regional Events</span><span class="schedule-date">Oct – Nov 2026</span></div>
               <p class="schedule-desc">Regional qualifier rounds take place across participating schools.</p>
             </div>
-            <div class="schedule-item">
+            <div class="schedule-item pop-init">
               <div class="schedule-dot" style="background: var(--color-lead);"><span>🥇</span></div>
               <div class="schedule-title-row"><span class="schedule-title">National Championship</span><span class="schedule-date">Dec 2026</span></div>
               <p class="schedule-desc">Live matches, pits &amp; judging, Innovation Showcase and Skill Challenge, finals &amp; awards.</p>
@@ -714,6 +739,17 @@
       media:{ name:'MEDIA & BRAND', role:'CORE DOMAIN 🎨', roleColor:'var(--color-branding)', img:'logo.jpeg', lines:['System check... PASSED','Primary Field: Visual Identity & Outreach','Focus: Video Edits, UI Experience & Branding','Target: Supreme brand dominance 🎨','Overview: Drives public relations, identity presentation, video edits, graphic content, documentation, and sponsor outreach.'] }
     };
     (function () {
+      const loader = document.getElementById('introLoader');
+      const dots = loader.querySelector('.loader-dots');
+      const ring = loader.querySelector('.loader-ring');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) { loader.style.display = 'none'; }
+      else {
+        setTimeout(() => dots.classList.add('dots-out'), 900);
+        setTimeout(() => ring.classList.add('ring-expand'), 950);
+        setTimeout(() => loader.classList.add('loader-out'), 1650);
+        setTimeout(() => { loader.style.display = 'none'; }, 2150);
+      }
       const splashLine = document.getElementById('splashErrorLine');
       const fullText = 'ERROR 404! NO LIMITS FOUND!!!!';
       let charIndex = 0;
@@ -721,14 +757,15 @@
         if (charIndex <= fullText.length) { splashLine.textContent = fullText.slice(0, charIndex); charIndex++; setTimeout(typeSplashChar, 35); }
         else { const cursor = document.createElement('span'); cursor.className = 'typing-cursor'; splashLine.appendChild(cursor); }
       }
-      setTimeout(typeSplashChar, 900);
-      window._autoEnterTimeout = setTimeout(enterMainSite, 5000);
+      setTimeout(typeSplashChar, reduceMotion ? 500 : 2400);
+      window._autoEnterTimeout = setTimeout(enterMainSite, reduceMotion ? 4000 : 7000);
       if (new URLSearchParams(window.location.search).get('admin') === 'true') { enterMainSite(); }
     })();
     let _hasEntered = false;
     function enterMainSite() {
       if (_hasEntered) return; _hasEntered = true; clearTimeout(window._autoEnterTimeout);
       const splash = document.getElementById('intro-splash'); const mainSite = document.getElementById('main-website');
+      const loader = document.getElementById('introLoader'); if (loader) loader.style.display = 'none';
       splash.classList.add('splash-hidden'); mainSite.classList.add('main-visible'); document.body.style.overflowY = 'auto';
       setTimeout(() => { splash.style.display = 'none'; }, 850); maybeShowCookieBanner();
     }
@@ -759,6 +796,7 @@
       { title:'Harshvardhan — Electric', cat:'Team', target:'team' },
       { title:'Mechanical Engineering', cat:'Domain', target:'domains' }, { title:'Coding & Autonomous Logic', cat:'Domain', target:'domains' },
       { title:'Electronics & Power', cat:'Domain', target:'domains' }, { title:'Media & Branding', cat:'Domain', target:'domains' },
+      { title:'Competition Schedule', cat:'Section', target:'schedule' },
       { title:'Privacy Policy', cat:'Legal', target:'legal:privacy' }, { title:'Cookie Policy', cat:'Legal', target:'legal:cookie' },
       { title:'Instagram', cat:'Social', target:'network' }, { title:'YouTube', cat:'Social', target:'network' }
     ];
@@ -780,6 +818,21 @@
     searchInput.addEventListener('focus', () => { if (searchInput.value.trim()) runSearch(); });
     document.addEventListener('click', (e) => { if (!e.target.closest('.search-wrap')) searchResults.classList.remove('show'); });
     function toggleFaq(btn) { const item = btn.closest('.faq-item'); const isOpen = item.classList.toggle('open'); btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false'); }
+    (function() {
+      const scheduleCard = document.querySelector('#schedule .schedule-card');
+      if (!scheduleCard) return;
+      const items = scheduleCard.querySelectorAll('.schedule-item');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          items.forEach((item, i) => {
+            setTimeout(() => { item.classList.remove('pop-init'); item.classList.add('pop-in'); }, i * 160);
+          });
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.2 });
+      io.observe(scheduleCard);
+    })();
     function maybeShowCookieBanner() { let consent = null; try { consent = localStorage.getItem('st-cookie-consent'); } catch(e){} if (!consent) document.getElementById('cookieBanner').classList.add('show'); }
     function acceptCookies() { try { localStorage.setItem('st-cookie-consent','accepted'); } catch(e){} document.getElementById('cookieBanner').classList.remove('show'); }
     function declineCookies() { try { localStorage.setItem('st-cookie-consent','declined'); } catch(e){} document.getElementById('cookieBanner').classList.remove('show'); }
