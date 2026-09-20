@@ -389,12 +389,12 @@
     body.no-3d #webgl-canvas,
     body.no-3d #intro-3d-canvas,
     body.no-3d #redirect-3d-canvas { display: none; }
-    body.no-3d #intro-splash { background-image: radial-gradient(circle at center, rgba(217, 4, 41, 0.16) 0%, rgba(5, 5, 8, 0.98) 70%); }
+    body.no-3d #intro-splash { background-image: linear-gradient(rgba(5, 5, 8, 0.9), rgba(5, 5, 8, 0.96)), radial-gradient(circle at center, rgba(217, 4, 41, 0.16) 0%, rgba(5, 5, 8, 0.98) 70%), url('logo.jpeg'); background-size: cover, cover, cover; background-position: center, center, center; }
     body.no-3d .redirect-content-box { background: rgba(8, 10, 16, 0.96); }
-    #intro-splash { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 5000; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background-color: #050508; background-image: radial-gradient(circle at center, rgba(217, 4, 41, 0.12) 0%, rgba(5, 5, 8, 0.97) 70%); overflow: hidden; transition: opacity 0.8s ease, visibility 0.8s ease; }
+    #intro-splash { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 5000; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background-color: #050508; background-image: linear-gradient(rgba(5, 5, 8, 0.88), rgba(5, 5, 8, 0.95)), radial-gradient(circle at center, rgba(217, 4, 41, 0.12) 0%, rgba(5, 5, 8, 0.97) 70%), url('logo.jpeg'); background-size: cover, cover, cover; background-position: center, center, center; overflow: hidden; transition: opacity 0.8s ease, visibility 0.8s ease; }
     #intro-splash.splash-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     /* ---- Preloader: dots -> expanding ring wipe, before the splash content reveals ---- */
-    #introLoader { position: fixed; inset: 0; z-index: 5200; display: flex; align-items: center; justify-content: center; background: #050508; transition: opacity 0.5s ease; }
+    #introLoader { position: fixed; inset: 0; z-index: 5200; display: flex; align-items: center; justify-content: center; background-color: #050508; background-image: linear-gradient(rgba(5, 5, 8, 0.86), rgba(5, 5, 8, 0.93)), url('logo.jpeg'); background-size: cover; background-position: center; transition: opacity 0.5s ease; }
     #introLoader.loader-out { opacity: 0; pointer-events: none; }
     .loader-dots { display: flex; gap: 11px; position: relative; z-index: 2; transition: opacity 0.3s ease, transform 0.3s ease; }
     .loader-dots span { width: 12px; height: 12px; border-radius: 50%; background: var(--cherry-glow); box-shadow: 0 0 12px rgba(239, 35, 60, 0.85); animation: loaderBounce 0.7s ease-in-out infinite; }
@@ -409,8 +409,6 @@
     #intro-3d-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
     .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; opacity: 0; transform: scale(0.85); animation: splashPop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s forwards; }
     @keyframes splashPop { to { opacity: 1; transform: scale(1); } }
-    .splash-logo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; margin-bottom: 1.1rem; box-shadow: 0 0 0 3px rgba(239, 35, 60, 0.55), 0 0 32px rgba(217, 4, 41, 0.7); opacity: 0; transform: scale(0.3) rotate(-20deg); animation: logoPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.7s forwards; }
-    @keyframes logoPop { to { opacity: 1; transform: scale(1) rotate(0deg); } }
     .splash-title { font-size: clamp(2.6rem, 8vw, 4.5rem); font-weight: 900; letter-spacing: -1px; color: #fff; text-shadow: 0 0 35px rgba(217, 4, 41, 0.9); margin-bottom: 1rem; opacity: 0; transform: translateY(16px); animation: splashRise 0.55s ease 1.95s forwards; }
     .splash-team-no { font-size: 1.2rem; font-weight: 800; letter-spacing: 3px; color: var(--cherry-glow); text-shadow: 0 0 10px rgba(239, 35, 60, 0.6); margin-bottom: 0.5rem; opacity: 0; transform: translateY(12px); animation: splashRise 0.5s ease 2.1s forwards; }
     .splash-league { font-size: 1rem; font-weight: 700; letter-spacing: 2px; color: #cbd5e1; margin-bottom: 2rem; opacity: 0; transform: translateY(10px); animation: splashRise 0.5s ease 2.25s forwards; }
@@ -474,7 +472,6 @@
   <div id="intro-splash">
     <canvas id="intro-3d-canvas" aria-hidden="true"></canvas>
     <div class="splash-content">
-      <img class="splash-logo" src="logo.jpeg" alt="SYNTAX TERROR team logo" onerror="this.style.display='none'">
       <h1 class="splash-title">SYNTAX TERROR</h1>
       <div class="splash-team-no">TEAM NO. 101</div>
       <div class="splash-league">NATIONAL ROBOTICS LEAGUE 2026</div>
