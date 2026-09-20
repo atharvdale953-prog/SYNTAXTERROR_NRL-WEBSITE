@@ -153,6 +153,22 @@
     .domain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
     .domain-title { font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.6rem; }
     .domain-desc { font-size: 0.88rem; color: var(--text-dim); line-height: 1.5; min-height: 3rem; text-align: left; }
+
+    /* --- Competition Schedule timeline --- */
+    .schedule-card { max-width: 720px; margin: 0 auto; cursor: default; }
+    .schedule-timeline { position: relative; padding-left: 2.6rem; }
+    .schedule-timeline::before { content: ''; position: absolute; left: 13px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(to bottom, var(--cherry-glow), var(--color-branding), var(--color-electric), var(--cherry-glow)); opacity: 0.55; }
+    .schedule-item { position: relative; padding-bottom: 1.9rem; }
+    .schedule-item:last-child { padding-bottom: 0; }
+    .schedule-dot { position: absolute; left: -2.6rem; top: 0; width: 26px; height: 26px; border-radius: 8px; transform: rotate(45deg); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(217, 4, 41, 0.45); }
+    .schedule-dot span { transform: rotate(-45deg); font-size: 0.85rem; }
+    .schedule-title-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 0.7rem; margin-bottom: 0.35rem; }
+    .schedule-title { font-size: 1.05rem; font-weight: 800; color: var(--text-main); }
+    .schedule-date { font-size: 0.78rem; font-weight: 700; color: var(--cherry-glow); letter-spacing: 0.5px; text-transform: uppercase; }
+    .schedule-desc { font-size: 0.9rem; color: var(--text-dim); line-height: 1.55; }
+    .schedule-sublist { list-style: none; margin-top: 0.4rem; padding: 0; }
+    .schedule-sublist li { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; padding-left: 1rem; position: relative; }
+    .schedule-sublist li::before { content: '★'; position: absolute; left: 0; color: var(--color-lead); font-size: 0.7rem; top: 0.2rem; }
     .typing-cursor { display: inline-block; width: 6px; height: 14px; background-color: var(--cherry-glow); margin-left: 2px; animation: blink 0.8s infinite; vertical-align: middle; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3, 3, 6, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 1.5rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
@@ -300,6 +316,10 @@
       /* --- DOMAINS / UPDATES --- */
       .domain-grid, .updates-grid { grid-template-columns: 1fr; gap: 1.1rem; }
       .domain-desc { min-height: 0; }
+      .schedule-timeline { padding-left: 2.1rem; }
+      .schedule-dot { left: -2.1rem; width: 22px; height: 22px; }
+      .schedule-dot span { font-size: 0.72rem; }
+      .schedule-title { font-size: 0.98rem; }
       .update-card img { height: auto; aspect-ratio: 16 / 10; }
 
       /* --- NETWORK --- */
@@ -451,9 +471,9 @@
           <a href="#about">About</a>
           <a href="#team">Team</a>
           <a href="#domains">Domains</a>
+          <a href="#schedule">Schedule</a>
           <a href="#network">Network</a>
           <a href="#updates">Updates</a>
-          <a href="#outreach">Outreach</a>
           <a href="#faq">FAQ</a>
           <a href="#engage">Engage</a>
         </div>
@@ -537,12 +557,57 @@
           <div class="glass-card" role="button" tabindex="0" onclick="triggerCyberModal(DOMAINS.media)" onkeypress="if(event.key==='Enter')triggerCyberModal(DOMAINS.media)"><div class="domain-title" style="color: var(--color-branding);">MEDIA &amp; BRANDING</div><div class="domain-desc">Drives public relations, identity presentation, video edits, graphic content, documentation, and sponsor outreach.</div></div>
         </div>
       </section>
+      <section class="section-block" id="schedule">
+        <h2 class="section-title">COMPETITION SCHEDULE</h2>
+        <div class="glass-card schedule-card">
+          <div class="schedule-timeline">
+            <div class="schedule-item">
+              <div class="schedule-dot" style="background: var(--color-branding);"><span>🚩</span></div>
+              <div class="schedule-title-row"><span class="schedule-title">Team Registrations Open</span><span class="schedule-date">July 2026</span></div>
+              <p class="schedule-desc">Schools finalise and submit student team details.</p>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-dot" style="background: var(--cherry-glow);"><span>🎮</span></div>
+              <div class="schedule-title-row"><span class="schedule-title">Game Reveal</span><span class="schedule-date">Aug 2026</span></div>
+              <p class="schedule-desc">Game manual with rules goes live and kits are shipped to schools.</p>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-dot" style="background: var(--color-mechanic);"><span>🛠️</span></div>
+              <div class="schedule-title-row"><span class="schedule-title">Build Season</span><span class="schedule-date">Sept – Nov 2026</span></div>
+              <p class="schedule-desc">Teams design, prototype, and program. Online webinars plus Bootcamps for enrolled students.</p>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-dot" style="background: var(--color-electric);"><span>💡</span></div>
+              <div class="schedule-title-row"><span class="schedule-title">Innovation Showcase Submission Due</span><span class="schedule-date">Oct 2026</span></div>
+              <p class="schedule-desc">Final documentation and showcase materials are submitted for judging.</p>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-dot" style="background: var(--color-branding);"><span>🏆</span></div>
+              <div class="schedule-title-row"><span class="schedule-title">Award Applications Due</span><span class="schedule-date">Oct 2026</span></div>
+              <ul class="schedule-sublist">
+                <li>The Trailblazer Award (Individual)</li>
+                <li>The InnovoStars Award (Team)</li>
+              </ul>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-dot" style="background: var(--cherry-glow);"><span>📍</span></div>
+              <div class="schedule-title-row"><span class="schedule-title">Regional Events</span><span class="schedule-date">Oct – Nov 2026</span></div>
+              <p class="schedule-desc">Regional qualifier rounds take place across participating schools.</p>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-dot" style="background: var(--color-lead);"><span>🥇</span></div>
+              <div class="schedule-title-row"><span class="schedule-title">National Championship</span><span class="schedule-date">Dec 2026</span></div>
+              <p class="schedule-desc">Live matches, pits &amp; judging, Innovation Showcase and Skill Challenge, finals &amp; awards.</p>
+            </div>
+          </div>
+        </div>
+      </section>
       <section class="section-block" id="network">
         <h2 class="section-title">Join The Network</h2>
         <div class="glass-card network-container" style="cursor: default;">
           <div class="social-btn-group">
             <button class="social-btn" onclick="triggerSocialRedirect('https://www.instagram.com/syntaxterror_nrl101/', 'INSTAGRAM')" aria-label="Open our Instagram in a new tab">Instagram</button>
-            <button class="social-btn" onclick="triggerSocialRedirect('https://www.youtube.com/@SyntaxTerror_NRL2026', 'YOUTUBE')" aria-label="Open our YouTube in a new tab">YouTube</button>
+            <button class="social-btn" onclick="triggerSocialRedirect('https://www.youtube.com/@syntaxterror_nrl', 'YOUTUBE')" aria-label="Open our YouTube in a new tab">YouTube</button>
           </div>
         </div>
       </section>
@@ -554,21 +619,11 @@
           <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line long"></div><div class="skeleton-line long"></div></div></div>
         </div>
       </section>
-      <section class="section-block" id="outreach">
-        <h2 class="section-title">CONTACT FOR OUTREACH</h2>
-        <div class="glass-card" style="cursor: default;">
-          <p style="color: var(--text-muted); line-height: 1.7; font-size: 1.02rem; text-align: center;">If your school promotes this team or wants to give or encourage robotics, kindly contact us using the number or email below. We would love to collaborate, mentor, or bring robotics to your institution.</p>
-          <div class="contact-info-row" style="justify-content: center;">
-            <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=terrorsyntax101@gmail.com" target="_blank" rel="noopener noreferrer">✉️ terrorsyntax101@gmail.com</a>
-            <a href="tel:+917738980816">📞 +91 77389 80816</a>
-          </div>
-        </div>
-      </section>
       <section class="section-block" id="faq">
         <h2 class="section-title">FREQUENTLY ASKED QUESTIONS</h2>
         <div id="faqContainer">
           <div class="faq-item"><button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">What is SYNTAX TERROR? <span class="faq-icon">+</span></button><div class="faq-answer"><p>SYNTAX TERROR (Team 101) is a student robotics team competing in the National Robotics League 2026, focused on mechanical design, coding, electronics, and media/branding.</p></div></div>
-          <div class="faq-item"><button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">How can my school support the team? <span class="faq-icon">+</span></button><div class="faq-answer"><p>Schools that wish to encourage or promote robotics can reach out via our Contact for Outreach section using the listed email or phone number.</p></div></div>
+          <div class="faq-item"><button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">How can my school support the team? <span class="faq-icon">+</span></button><div class="faq-answer"><p>Schools that wish to encourage or promote robotics can reach out via the email or phone number listed in the footer below.</p></div></div>
           <div class="faq-item"><button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">How quickly do you respond to messages? <span class="faq-icon">+</span></button><div class="faq-answer"><p>Response time promise: we aim to reply to all messages within 48 hours.</p></div></div>
           <div class="faq-item"><button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">Can I send the team a message of support? <span class="faq-icon">+</span></button><div class="faq-answer"><p>Absolutely! Head to the Engage section to transmit your wishes and cheer for the team.</p></div></div>
         </div>
@@ -578,7 +633,7 @@
           <div class="glass-card" style="cursor: default;">
             <h3 style="color: var(--cherry-glow); font-size: 1.4rem; margin-bottom: 1rem; text-align: center;">TRANSMIT WISHES</h3>
             <form class="ajax-form" data-msg="wishMsg">
-              <input type="hidden" name="access_key" value="300b51c1-174a-453e-8eb9-b8846e7b3092">
+              <input type="hidden" name="access_key" value="6c9f19e9-875d-49f3-a57a-093e97357b76">
               <input type="hidden" name="subject" value="New Wish for SYNTAX TERROR">
               <div class="form-group"><label for="wishName">Your Name *</label><input id="wishName" type="text" name="name" class="form-control" placeholder="Operator Name" required></div>
               <div class="form-group"><label for="wishEmail">Your Email *</label><input id="wishEmail" type="email" name="email" class="form-control" placeholder="name@domain.com" required></div>
@@ -696,7 +751,7 @@
       { title:'Team Overview', cat:'Section', target:'overview' }, { title:'About Us', cat:'Section', target:'about' },
       { title:'Meet The Team', cat:'Section', target:'team' }, { title:'Our Domains', cat:'Section', target:'domains' },
       { title:'Join The Network', cat:'Section', target:'network' }, { title:'Latest Updates', cat:'Section', target:'updates' },
-      { title:'Contact for Outreach', cat:'Section', target:'outreach' }, { title:'FAQ', cat:'Section', target:'faq' },
+      { title:'FAQ', cat:'Section', target:'faq' },
       { title:'Support / Engage', cat:'Section', target:'engage' },
       { title:'Atharv — Coder & Team Lead', cat:'Team', target:'team' }, { title:'Riya — Mechanic', cat:'Team', target:'team' },
       { title:'Sudiksha — Coder', cat:'Team', target:'team' }, { title:'Yadukrishnan — Electric', cat:'Team', target:'team' },
